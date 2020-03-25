@@ -7,6 +7,7 @@ import {AdministrativoComponent} from './administrativo.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {EnvolvidosService} from './envolvidos/envolvidos.service';
 import {NgxLoadingModule} from 'ngx-loading';
+import {IncidentesComponent} from './incidentes/incidentes.component';
 
 
 const ROUTES: Routes = [
@@ -20,6 +21,7 @@ const ROUTES: Routes = [
   declarations: [
     AdministrativoComponent,
     EnvolvidosComponent,
+    IncidentesComponent
   ],
   imports: [SharedModule,
     RouterModule.forChild(ROUTES), NgxLoadingModule, NgbModule
