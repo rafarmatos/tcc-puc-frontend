@@ -39,7 +39,7 @@ export class ImageUploadComponent implements OnInit {
         reader.onloadend = () => {
             this.state.file = file;
             this.state.imagePreviewUrl = this.imageUploadService
-              .uploadImage(this.loginService.getUser().idConta.toString(), file)
+              .uploadImage(this.loginService.getUser().picture.toString(), file)
               .subscribe(url => {
                 console.log(url.toString());
                 this.loginService.atualizaImagem(url.toString());

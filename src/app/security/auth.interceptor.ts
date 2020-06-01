@@ -24,7 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     if (loginService.isLoogedIn()) {
       const authRequest = request.clone(
-        {setHeaders: {'Authorization': `Bearer ${loginService.user.tkAuthorization}`}});
+        {setHeaders: {'authorization': `${loginService.user.authorization}`}});
       return next.handle(authRequest).pipe(catchError((err: any) => {
         if (err instanceof HttpErrorResponse && err.status === 401) {
           loginService.logout();

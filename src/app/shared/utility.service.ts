@@ -21,10 +21,7 @@ export class Utility {
 
   public getMiniaturaPerfil(URLImagem: string): string {
     if (URLImagem) {
-      let miniatura: string;
-      miniatura = URLImagem.substr(0, URLImagem.length - 4);
-      miniatura += '_thumb' + URLImagem.substr(-4);
-      return miniatura;
+      return URLImagem;
     } else {
       return './assets/img/placeholder.jpg';
     }

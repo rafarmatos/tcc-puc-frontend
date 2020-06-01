@@ -1,24 +1,22 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {SICA_API} from '../../app.api';
+import {SICA_API, SICA_API_SEG} from '../../app.api';
 import {User} from './user.model';
 import {NavigationEnd, Router} from '@angular/router';
 import {tap, filter} from 'rxjs/operators';
-import {Utility} from "../../shared/utility.service";
-import {Conta} from "../../shared/models/conta.model";
+import {Utility} from '../../shared/utility.service';
+import {Conta} from '../../shared/models/conta.model';
 import { of } from 'rxjs';
 
 @Injectable()
 export class LoginService {
   user: User;
-  conta: Conta;
-  isPiscologo: boolean
-  lastUrl: string
+  lastUrl: string;
 
   isLoogedIn(): boolean {
     this.user = this.getUser();
-    return this.user != null
+    return this.user != null;
   }
 
 
@@ -26,11 +24,7 @@ export class LoginService {
     this.router.events.pipe(
       filter(e => e instanceof NavigationEnd))
       .subscribe((e: NavigationEnd) => {
-        this.lastUrl = e.url
-        // Ao construir service, se já tiver logado, preencher com os dados do usuario
-        if (this.isLoogedIn()){
-          this.preencheDadosUsuario();
-        }
+        this.lastUrl = e.url;
       });
   }
 
@@ -39,13 +33,13 @@ export class LoginService {
     return this.user;
   }
 
-  atualizaImagem(imagem: string){
-    this.user.urFotoPerfil = imagem;
+  atualizaImagem(imagem: string) {
+    this.user.picture = imagem;
     this.updateLocalStorge();
   }
 
-  getMiniaturaPerfil(){
-    return this.utility.getMiniaturaPerfil(this.user.urFotoPerfil)
+  getMiniaturaPerfil() {
+    return this.utility.getMiniaturaPerfil(this.user.picture);
   }
 
   login(email: string, password: string): Observable<User> {
@@ -56,40 +50,31 @@ export class LoginService {
           () => this.updateLocalStorge() ));
   }
 
-  getContaUsuario(): Observable<Conta>{
-    console.log('getContaUsuario');
-    if (this.getUser() != null ){
-      return this.http.get<Conta>(`${SICA_API}/Conta/ObterContaPorId`, {params: {idConta: this.getUser().idConta.toString()}});
-    }else{
-      return of(null);
-    }
-
+  loginGoogle(authorization: string): Observable<Conta> {
+    console.log('teste')
+    return this.http.get<Conta>(`${SICA_API_SEG}/_user`, {headers: {'Authorization': `${authorization}`}}).pipe(
+      tap(user => this.user = user,
+        error => console.log(error),
+        () => this.updateLocalStorge() ));
   }
 
-  preencheDadosUsuario() {
-    this.getContaUsuario().subscribe(conta => {
-      this.conta = conta;
-      this.isPiscologo = conta.tpConta === 2 || conta.tpConta === 1;
-      console.log('tipo conta' + this.conta.tpConta);
-    })
-  }
 
-  updateLocalStorge(){
+  updateLocalStorge() {
     localStorage.setItem('user',  JSON.stringify(this.user));
   }
 
   handleLogin(path: string = this.lastUrl) {
-    this.router.navigate(['/login', btoa(path)])
+    this.router.navigate(['/login', btoa(path)]);
   }
 
 
   logout() {
     localStorage.clear();
     this.user = undefined;
-    this.router.navigate(['/home'])
+    this.router.navigate(['/home']);
   }
 
-  getRoute (){
+  getRoute () {
     this.router.getCurrentNavigation();
   }
 

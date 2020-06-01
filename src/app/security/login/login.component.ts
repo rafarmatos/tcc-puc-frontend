@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoginService} from './login.service';
 import {NotificationService} from '../../shared/massages/snackbar/notification.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import {User} from './user.model';
 
 @Component({
   selector: 'mt-login',
@@ -14,12 +14,17 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   navigateTo: string;
-  navigateToAgenda: string;
+  authorization: string;
+  user: User;
+
+
+
+
   constructor(private fb: FormBuilder,
               private loginService: LoginService,
               private notificationService: NotificationService,
               private activatedRoute: ActivatedRoute,
-              private router: Router) { }
+              private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -27,15 +32,32 @@ export class LoginComponent implements OnInit {
       password: this.fb.control('', [Validators.required])
     });
 
-    //Redirecionamento
-    //voltar para pagina q exige autenticação
-    this.navigateTo = this.activatedRoute.snapshot.params['to' ] || btoa('/');
 
-    //voltar para outro tipo de pagina
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.navigateToAgenda = params['toAgenda'];
-      console.log(`parametro agenda ${this.navigateToAgenda}`);
-    });
+    this.route
+      .queryParams
+      .subscribe(params => {
+        this.authorization = params['authorization'];
+        if (this.authorization) {
+          console.log('buscar usuario:' + this.authorization);
+          this.loginService.loginGoogle(this.authorization).subscribe(
+            user => {
+              this.user = user;
+              console.log('redirecionar');
+              this.router.navigate(['/home']);
+
+            },
+            error => {
+              this.notificationService.notify(error.error);
+            }, () => {
+
+               }
+          );
+        }
+      });
+
+    // Redirecionamento
+    // voltar para pagina q exige autenticação
+    this.navigateTo = this.activatedRoute.snapshot.params['to' ] || btoa('/');
 
 
 
@@ -49,8 +71,8 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(){
-    var body = document.getElementsByTagName('body')[0];
+  ngOnDestroy() {
+    const body = document.getElementsByTagName('body')[0];
     body.classList.remove('full-screen');
     body.classList.remove('register');
     /*var navbar = document.getElementsByTagName('nav')[0];
@@ -60,28 +82,21 @@ export class LoginComponent implements OnInit {
   login() {
     this.loginService.login(this.loginForm.value.email,
       this.loginForm.value.password).subscribe(user => {
-          this.notificationService.notify(`Bem vindo, ${user.dsNome}`);
+          this.notificationService.notify(`Bem vindo, ${user.name}`);
           this.loginService.updateLocalStorge();
-          this.loginService.preencheDadosUsuario();
       },
       response => {
         localStorage.clear();
-        this.notificationService.notify(response.error)
+        this.notificationService.notify(response.error);
       },
       () => {
-        if (this.isEmpty(this.navigateToAgenda)){
-          console.log(`Será redirecionado pagina anterior`)
-          this.router.navigate([atob(this.navigateTo)])
-        }else{
-          console.log(`Será redirecionado para agenda ${this.navigateToAgenda}.`)
-          this.router.navigate([`/agenda/${this.navigateToAgenda}`]);
-        }
+
 
       }
-      )
+      );
   }
 
-  getMiniaturaPerfil(): string{
+  getMiniaturaPerfil(): string {
     return this.loginService.getMiniaturaPerfil();
   }
 

@@ -17,24 +17,13 @@ export class LoggedInGuard implements CanLoad, CanActivate {
 
   checkAuthentication(path: string, tipoContaExpected?: string): boolean {
     const loggedIn = this.loginService.isLoogedIn();
-    console.log('is loggedin: '+loggedIn)
+    console.log('is loggedin: ' + loggedIn);
 
-    this.loginService.getContaUsuario().subscribe( conta => {
-      if (tipoContaExpected != null) {
-        if (!loggedIn || !(conta.tpConta === 2 || conta.tpConta === 1)) {
-          console.log('acesso negado: não possui permissão');
-          this.router.navigate(['/administrativo']);
-        }
-      } else {
-        if (!loggedIn) {
+    if (!loggedIn) {
           console.log('acesso negado: não esta logado');
           console.log(path);
           this.loginService.handleLogin(`/${path}`);
         }
-      }
-    });
-
-
 
     return loggedIn;
   }

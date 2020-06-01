@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  api: 'https://remarspseu.azurewebsites.net/api'
+  api_seg: 'https://sica-business.herokuapp.com',
+  api: 'https://sica-eventos.herokuapp.com'
 };

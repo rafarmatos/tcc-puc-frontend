@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
 import {LoginService} from '../security/login/login.service';
-import {Conta} from '../shared/models/conta.model';
+import {User} from '../security/login/user.model';
 
 @Component({
   selector: 'app-sica-header',
@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
 
   private toggleButton: any;
   private sidebarVisible: boolean;
-  private conta: Conta;
+  private user: User;
 
 
   constructor(public location: Location, private element: ElementRef, private loginService: LoginService) {
@@ -23,9 +23,7 @@ export class HeaderComponent implements OnInit {
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
     if (this.loginService.isLoogedIn()) {
-      this.loginService.getContaUsuario().subscribe(conta => {
-        this.conta = conta;
-      });
+      this.loginService.getUser();
     }
   }
 
@@ -57,11 +55,6 @@ export class HeaderComponent implements OnInit {
     } else {
       this.sidebarClose();
     }
-  }
-
-  isPsicologo() {
-
-    return this.loginService.isPiscologo;
   }
 
   isHome() {
