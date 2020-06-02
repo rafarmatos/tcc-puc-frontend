@@ -13,7 +13,7 @@ const PrimaryGreen = '#82C83C';
 const SecondaryGrey = '#ccc';
 
 @Component({
-  selector: 'app-consultas-agendadas',
+  selector: 'app-adm-incidentes',
   templateUrl: './incidentes.component.html',
   styleUrls: ['./incidentes.component.scss']
 })
