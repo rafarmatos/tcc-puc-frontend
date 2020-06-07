@@ -1,40 +1,36 @@
 <div class="wrapper">
-  <div class="container ">
+  <div class="container " *ngIf="listaZonas">
     <div class="row">
       <div class="col-md-8 ml-auto mr-auto text-center">
         <h2 class="title">Zonas</h2>
       </div>
     </div>
 
-    <button type="button" class="btn btn-default btn-round" data-toggle="modal" data-target="#exampleModalCenter" (click)="novaConta()"><i class="fa fa-plus"></i> Incluir Zona</button>
+    <button type="button" class="btn btn-default btn-round" data-toggle="modal" data-target="#exampleModalCenter" (click)="novaZona()"><i class="fa fa-plus"></i> Incluir Zona</button>
     <br>
     <br>
-    <div>
+    <div >
       <div class="table-responsive">
         <table class="table">
           <thead>
           <tr class="row">
-            <th class="col-2">Data Início</th>
-            <th class="col-2">Data Fim</th>
-            <th class="col-6">Motivo</th>
-            <th class="col-2">Ações</th>
+            <th class="col-8">Nome</th>
+<!--            <th class="col-2">Ações</th>-->
           </tr>
           </thead>
           <tbody>
-          <tr class="row" *ngFor="let contaHorarioIndisponibilidade of listaContaHorarioIndisponibilidade">
-            <td class="col-2">{{contaHorarioIndisponibilidade.dhInicio | date: 'dd/MM/yyyy HH:mm'}}</td>
-            <td class="col-2">{{contaHorarioIndisponibilidade.dhFim | date: 'dd/MM/yyyy HH:mm'}}</td>
-            <td class="col-6">{{contaHorarioIndisponibilidade.dsMotivo}}</td>
-            <td class="col-2 td-actions text-left">
-              <button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"
-                      class="btn btn-success btn-link btn-sm" data-toggle="modal" data-target="#exampleModalCenter" (click)="editarConta(contaHorarioIndisponibilidade.idContaIndisponibilidade)">
-                <i class="fa fa-edit"></i>
-              </button>
-              <button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Remover"
-                      class="btn btn-danger btn-link btn-sm" (click)="excluirHorariosIndisponiveisPorId(contaHorarioIndisponibilidade.idContaIndisponibilidade)">
-                <i class="fa fa-times"></i>
-              </button>
-            </td>
+          <tr class="row" *ngFor="let zona of listaZonas">
+            <td class="col-8">{{zona.nomeZona}}</td>
+<!--            <td class="col-2 td-actions text-left">-->
+<!--              <button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"-->
+<!--                      class="btn btn-success btn-link btn-sm" data-toggle="modal" data-target="#exampleModalCenter">-->
+<!--                <i class="fa fa-edit"></i>-->
+<!--              </button>-->
+<!--              <button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Remover"-->
+<!--                      class="btn btn-danger btn-link btn-sm">-->
+<!--                <i class="fa fa-times"></i>-->
+<!--              </button>-->
+<!--            </td>-->
           </tr>
 
           </tbody>
@@ -48,57 +44,26 @@
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <form [formGroup]="incluirHorarioForm" >
+  <form [formGroup]="incluirZonaForm" >
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Horario Indisponibilidade</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Incluir Nova Zona</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body h-80">
-          <input type="hidden" id="dsId" formControlName="idContaIndisponibilidade" [ngModel]="contaHorarioIndisponibilidadeSelecionado.idContaIndisponibilidade">
-          <input type="hidden" id="dsIdConta" formControlName="idConta" [ngModel]="contaHorarioIndisponibilidadeSelecionado.idConta">
-          <div class="form-group row align-items-center h-80">
-            <label for="dsDataInicio" class="col-3 col-form-label mb-3">Nome</label>
+         <div class="form-group row align-items-center h-80">
+            <label for="dsNomeZona" class="col-3 col-form-label mb-3">Nome</label>
             <div class='col-5'>
               <div class="form-group">
-                <pseu-input-container errorMassage="Data invalida">
-                  <input  id="dsDataInicio" type="date" min="{{minDate}}" formControlName="dhInicio" class="form-control"  [ngModel]="zona.name | date: 'yyyy-MM-dd'">
+                <pseu-input-container errorMassage="Nome Invalido">
+                  <input  id="nomeZona" type="text" formControlName="nomeZona" class="form-control"  [ngModel]="zonaSelecionado.nomeZona">
                 </pseu-input-container>
               </div>
             </div>
-            <div class='col-4' >
-              <pseu-input-container errorMassage="Hora invalida">
-                <input  type="time" min="0" max="12" formControlName="horaInicio" class="form-control" [ngModel]="contaHorarioIndisponibilidadeSelecionado.horaInicio | date: 'HH:mm'">
-              </pseu-input-container>
-            </div>
-          </div>
 
-
-          <div class="form-group row align-items-center h-80">
-            <label for="dsDataInicio" class="col-3 col-form-label mb-3" >Data Fim</label>
-            <div class='col-5'>
-              <div class="form-group">
-                <pseu-input-container errorMassage="Data invalida">
-                  <input  id="dsDataFim" type="date" min="{{minDate}}" formControlName="dhFim" class="form-control" [ngModel]="contaHorarioIndisponibilidadeSelecionado.dhFim | date: 'yyyy-MM-dd'">
-                </pseu-input-container>
-              </div>
-            </div>
-            <div class='col-4 ' >
-              <pseu-input-container errorMassage="Hora invalida">
-                <input type="time" min="0" max="12" formControlName="horaFim" class="form-control" [ngModel]="contaHorarioIndisponibilidadeSelecionado.horaFim | date: 'HH:mm'">
-              </pseu-input-container>
-            </div>
-          </div>
-          <div class="form-group row align-items-center h-80">
-            <label for="dsMotivo" class="col-3 col-form-label">Motivo</label>
-            <div class="col-9">
-              <pseu-input-container errorMassage="Motivo Invalido">
-                <input id="dsMotivo" type="text" formControlName="dsMotivo" class="form-control" [ngModel]="contaHorarioIndisponibilidadeSelecionado.dsMotivo">
-              </pseu-input-container>
-            </div>
           </div>
 
 
@@ -106,15 +71,9 @@
         <div class="modal-footer" >
           <br><br>
           <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Fechar</button>
-          <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" style="margin-right: 15px" [disabled]="incluirHorarioForm.invalid" (click)="salvar(incluirHorarioForm.value)">Salvar</button>
+          <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" style="margin-right: 15px" [disabled]="incluirZonaForm.invalid" (click)="salvar(incluirZonaForm.value)">Salvar</button>
         </div>
       </div>
     </div>
   </form>
 </div>
-
-
-<ng-template #customLoadingTemplate> </ng-template>
-<ngx-loading [show]="loading" [config]="{primaryColour: primaryColour, secondaryColour: secondaryColour, fullScreenBackdrop: true, animationType: ngxLoadingAnimationTypes.circle}">
-</ngx-loading>
-

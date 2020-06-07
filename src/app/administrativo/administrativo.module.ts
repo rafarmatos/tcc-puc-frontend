@@ -7,14 +7,13 @@ import {AdministrativoComponent} from './administrativo.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {EnvolvidosService} from './envolvidos/envolvidos.service';
 import {NgxLoadingModule} from 'ngx-loading';
-import {IncidentesComponent} from './incidentes/incidentes.component';
 import {ZonasComponent} from './zonas/zonas.component';
+import {ZonasService} from './zonas/zonas.service';
 
 
 const ROUTES: Routes = [
   { path: 'envolvidos', component: EnvolvidosComponent },
   { path: 'zonas', component: ZonasComponent },
-  { path: 'incidentes', component: IncidentesComponent },
 /*  {path:  'admin', loadChildren: './admin/admin.module#AdminModule',
     canLoad: [LoggedInGuard], canActivate: [LoggedInGuard], data: {tipoContaExpected: '2'} },*/
   {path: '', component: AdministrativoComponent}
@@ -24,7 +23,6 @@ const ROUTES: Routes = [
   declarations: [
     AdministrativoComponent,
     EnvolvidosComponent,
-    IncidentesComponent,
     ZonasComponent
   ],
   imports: [SharedModule,
@@ -32,6 +30,7 @@ const ROUTES: Routes = [
   ],
   providers: [
     EnvolvidosService,
+    ZonasService,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

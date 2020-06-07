@@ -8,4 +8,4 @@ class SelectItemText {
   itemName: string;
 }
 
-export {SelectItem,SelectItemText}
+export {SelectItem, SelectItemText};

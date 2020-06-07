@@ -7,8 +7,11 @@ import 'rxjs/add/observable/interval';
 import 'rxjs/add/operator/takeWhile';
 import {NotificationService} from '../../shared/massages/snackbar/notification.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ZonaDTO} from '../../shared/dto/zonaDTO';
+import {ZonaModel} from '../../shared/models/zona.model';
+import {LoginService} from '../../security/login/login.service';
+import {ZonasService} from './zonas.service';
 
-declare let PagSeguroLightbox: any;
 
 const PrimaryGreen = '#82C83C';
 const SecondaryGrey = '#ccc';
@@ -20,28 +23,59 @@ const SecondaryGrey = '#ccc';
 })
 export class ZonasComponent implements OnInit {
 
-  // loading
-  public loading = false;
-  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
-  public primaryColour = PrimaryGreen;
-  public secondaryColour = SecondaryGrey;
+  incluirZonaForm: FormGroup;
+  zona: ZonaDTO;
+  listaZonas: ZonaDTO[];
+  zonaSelecionado: ZonaModel = new ZonaModel();
 
 
-  zonaForm: FormGroup;
 
-
-  constructor(private router: Router,
-              private utility: Utility,
-              private fb: FormBuilder,
-              private notificationService: NotificationService) {
+  constructor(private fb: FormBuilder,
+              private zonasService: ZonasService,
+              private loginService: LoginService) {
   }
 
   ngOnInit() {
-
-    this.zonaForm = new FormGroup({
-      dsNome: this.fb.control('', [Validators.required, Validators.minLength(5)]),
+    this.incluirZonaForm = this.fb.group({
+      nomeZona: this.fb.control('', [Validators.required])
     });
+
+    this.buscarZonas();
+
+
+
   }
+
+  buscarZonas() {
+    // Busca Zonas
+        this.zonasService.buscarZonas()
+          .subscribe(listaZonas => {
+              this.listaZonas = listaZonas;
+            console.log(this.listaZonas);
+            }
+
+          );
+  }
+
+  novaZona() {
+    this.zonaSelecionado = new ZonaModel();
+  }
+
+
+  salvar(zonaSelecionado: ZonaModel) {
+
+    this.zonasService.incluirZona(zonaSelecionado)
+      .subscribe(resultado => {
+          console.log('ok');
+        }, error => console.log('Error: ', error),
+
+        () => {
+          this.buscarZonas();
+        }
+
+      );
+  }
+
 
 
 }

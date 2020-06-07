@@ -1,57 +1,27 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {ConsultaDTO} from '../../shared/dto/ConsultaDTO';
+import {HttpClient} from '@angular/common/http';
+import {map, tap} from 'rxjs/operators';
+import {ZonaModel} from '../../shared/models/zona.model';
+import {ZonaDTO} from '../../shared/dto/zonaDTO';
 import {SICA_API} from '../../app.api';
-import {Pagamento} from '../../shared/models/pagamento.model';
-import {tap} from 'rxjs/operators';
+
 
 
 @Injectable()
 export class ZonasService {
 
-  consultaDTO: ConsultaDTO;
-  pagamento: Pagamento;
+  zona: ZonaModel;
 
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) {
+  buscarZonas(): Observable<ZonaDTO[]> {
+    return this.http.get<ZonaDTO[]>(`${SICA_API}/zona`);
   }
 
-
-  buscarConsultaPorIdConta(idConta: string, sgStatusConsultaArray: Array<string>): Observable<ConsultaDTO[]> {
-
-
-    let params = new HttpParams();
-
-    // Lista de status
-    sgStatusConsultaArray.forEach((sgStatus: string) => {
-      params = params.append(`sgStatus`, sgStatus);
-    });
-
-    // id Conta
-    params = params.append(`idConta`, idConta);
-
-    // Parametro conta cliente esta fazendo a consulta
-    params = params.append(`tpConta`, '3');
-
-
-    return this.http.get<ConsultaDTO[]>(`${SICA_API}/Consulta/ObterConsultasPorIdConta`,
-      {params});
+  incluirZona(zona: ZonaModel): Observable<ZonaModel> {
+    return this.http.post<ZonaModel>(`${SICA_API}/zona`, zona)
+      .pipe(tap(resultado => this.zona = zona));
   }
-
-  consultaCheckout(idConsulta: string): Observable<String> {
-
-
-    return this.http.post(`${SICA_API}/Pagamento/ConsultaCheckout/${idConsulta}`, null, {responseType: 'text'});
-
-  }
-
-  gravarPagamento(pagamento: Pagamento): Observable<Pagamento> {
-    return this.http.post<Pagamento>(`${SICA_API}/Pagamento/Post`, pagamento)
-      .pipe(tap(pagamento => this.pagamento = pagamento));
-  }
-
-
-
 
 }

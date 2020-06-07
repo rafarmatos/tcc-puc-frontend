@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {User} from './user.model';
 
 @Component({
-  selector: 'mt-login',
+  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
