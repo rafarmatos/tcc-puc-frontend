@@ -9,11 +9,17 @@ import {EnvolvidosService} from './envolvidos/envolvidos.service';
 import {NgxLoadingModule} from 'ngx-loading';
 import {ZonasComponent} from './zonas/zonas.component';
 import {ZonasService} from './zonas/zonas.service';
+import {EventoComponent} from './evento/evento.component';
+import {SensorComponent} from './sensor/sensor.component';
+import {EventoService} from './evento/evento.service';
+import {SensoresService} from './sensor/sensor.service';
 
 
 const ROUTES: Routes = [
   { path: 'envolvidos', component: EnvolvidosComponent },
   { path: 'zonas', component: ZonasComponent },
+  { path: 'sensores', component: SensorComponent },
+  { path: 'eventos', component: EventoComponent },
 /*  {path:  'admin', loadChildren: './admin/admin.module#AdminModule',
     canLoad: [LoggedInGuard], canActivate: [LoggedInGuard], data: {tipoContaExpected: '2'} },*/
   {path: '', component: AdministrativoComponent}
@@ -23,7 +29,9 @@ const ROUTES: Routes = [
   declarations: [
     AdministrativoComponent,
     EnvolvidosComponent,
-    ZonasComponent
+    ZonasComponent,
+    EventoComponent,
+    SensorComponent
   ],
   imports: [SharedModule,
     RouterModule.forChild(ROUTES), NgxLoadingModule, NgbModule
@@ -31,6 +39,8 @@ const ROUTES: Routes = [
   providers: [
     EnvolvidosService,
     ZonasService,
+    EventoService,
+    SensoresService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

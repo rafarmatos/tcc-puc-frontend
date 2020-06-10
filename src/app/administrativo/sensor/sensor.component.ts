@@ -3,41 +3,40 @@ import {Component, OnInit} from '@angular/core';
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/operator/takeWhile';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {EnvolvidoModel} from '../../shared/models/envolvido.model';
-import {LoginService} from '../../security/login/login.service';
-import {EnvolvidoDTO} from '../../shared/dto/envolvidoDTO';
-import {EnvolvidosService} from './envolvidos.service';
+import {SensorModel} from '../../shared/models/sensor.model';
+import {SensorDTO} from '../../shared/dto/sensorDTO';
+import {SensoresService} from './sensor.service';
 import {SelectItem} from '../../shared/models/selectItem.model';
 import {NotificationService} from '../../shared/massages/snackbar/notification.service';
 
 
 @Component({
-  selector: 'app-adm-envolvidos',
-  templateUrl: './Envolvidos.component.html',
-  styleUrls: ['./Envolvidos.component.scss']
+  selector: 'app-adm-sensores',
+  templateUrl: './sensor.component.html',
+  styleUrls: ['./sensor.component.scss']
 })
-export class EnvolvidosComponent implements OnInit {
+export class SensorComponent implements OnInit {
 
-  incluirEnvolvidoForm: FormGroup;
-  listaEnvolvidos: EnvolvidoDTO[];
-  envolvidoSelecionado: EnvolvidoModel = new EnvolvidoModel();
+  incluirSensorForm: FormGroup;
+  listaSensores: SensorDTO[];
+  sensorSelecionado: SensorModel = new SensorModel();
   zonaSelected: SelectItem = {'id': 0, 'itemName': 'Selecione'};
   zonasList: SelectItem[];
 
 
   constructor(private fb: FormBuilder,
-              private envolvidosService: EnvolvidosService,
+              private sensoresService: SensoresService,
               private notificationService: NotificationService) {
   }
 
   ngOnInit() {
-    this.incluirEnvolvidoForm = this.fb.group({
-      categoria: this.fb.control('', [Validators.required]),
-      email: this.fb.control('', [Validators.required, Validators.email]),
+    this.incluirSensorForm = this.fb.group({
+      localizacao: this.fb.control('', [Validators.required]),
+      nomeSensor: this.fb.control('', [Validators.required]),
       idZona: this.fb.control(''),
     });
 
-    this.buscarEnvolvidos();
+    this.buscarSensores();
     this.buscarZonas();
 
 
@@ -48,12 +47,12 @@ export class EnvolvidosComponent implements OnInit {
     this.zonaSelected = this.zonasList.find(element => element.id === Number(valor));
   }
 
-  buscarEnvolvidos() {
-    // Busca Envolvidos
-    this.envolvidosService.buscarEnvolvidos()
-      .subscribe(listaEnvolvidos => {
-          this.listaEnvolvidos = listaEnvolvidos;
-          console.log(this.listaEnvolvidos);
+  buscarSensores() {
+    // Busca Sensores
+    this.sensoresService.buscarSensores()
+      .subscribe(listaSensores => {
+          this.listaSensores = listaSensores;
+          console.log(this.listaSensores);
         }
       );
   }
@@ -61,7 +60,7 @@ export class EnvolvidosComponent implements OnInit {
 
   buscarZonas() {
     // Busca Zonas e convertendo para SelectItem
-    this.envolvidosService.buscarZonas()
+    this.sensoresService.buscarZonas()
       .subscribe(listaZonas => {
           this.zonasList = listaZonas.map(zona => ({id: zona.idZona, itemName: zona.nomeZona}));
           this.zonaSelected = this.zonasList[0];
@@ -71,14 +70,14 @@ export class EnvolvidosComponent implements OnInit {
       );
   }
 
-  novoEnvolvido() {
-    this.envolvidoSelecionado = new EnvolvidoModel();
+  novoSensor() {
+    this.sensorSelecionado = new SensorModel();
   }
 
 
-  salvar(envolvidoSelecionado: EnvolvidoModel) {
+  salvar(sensorSelecionado: SensorModel) {
 
-    this.envolvidosService.incluirEnvolvido(envolvidoSelecionado)
+    this.sensoresService.incluirSensor(sensorSelecionado)
       .subscribe(resultado => {
           this.notificationService.notify('Incluido com sucesso');
         }, error => {
@@ -87,20 +86,20 @@ export class EnvolvidosComponent implements OnInit {
         ,
 
         () => {
-          this.buscarEnvolvidos();
+          this.buscarSensores();
         }
       );
   }
 
-  excluirEnvolvidoPorId(idEnvolvido: number) {
-    this.envolvidosService.excluirEnvolvidoPorId(idEnvolvido.toString())
+  excluirSensorPorId(idSensor: number) {
+    this.sensoresService.excluirSensorPorId(idSensor.toString())
       .subscribe((data) => {
           this.notificationService.notify('Excluido com sucesso');
         }, error => {
           this.notificationService.notify('Erro: ' + error.error.message);
         },
         () => {
-          this.buscarEnvolvidos();
+          this.buscarSensores();
         }
       );
   }

@@ -1,0 +1,124 @@
+<div class="wrapper">
+  <div class="container " *ngIf="listaEventos">
+    <div class="row">
+      <div class="col-md-8 ml-auto mr-auto text-center">
+        <h2 class="title">Eventos</h2>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-default btn-round" data-toggle="modal" data-target="#exampleModalCenter" (click)="novoEvento()"><i class="fa fa-plus"></i> Incluir Evento</button>
+    <br>
+    <br>
+    <div >
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+          <tr class="row">
+            <th class="col-3">Data</th>
+            <th class="col-3">Descricação</th>
+            <th class="col-2">Intensidade</th>
+            <th class="col-2">Sensor</th>
+            <th class="col-2"></th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="row" *ngFor="let evento of listaEventos">
+            <td class="col-3">{{evento.data}}</td>
+            <td class="col-3">{{evento.evento}}</td>
+            <td class="col-2">{{evento.intensidade}}</td>
+            <td class="col-2">{{evento.sensor}}</td>
+
+                        <td class="col-2 td-actions text-left">
+<!--                          <button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"-->
+<!--                                  class="btn btn-success btn-link btn-sm" data-toggle="modal" data-target="#exampleModalCenter">-->
+<!--                            <i class="fa fa-edit"></i>-->
+<!--                          </button>-->
+                          <button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Remover"
+                                  class="btn btn-danger btn-link btn-sm" (click)="excluirEventoPorId(evento.id)">
+                            <i class="fa fa-times"></i>
+                          </button>
+                        </td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <form [formGroup]="incluirEventoForm" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Incluir Novo Evento</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body h-80">
+          <div class="form-group row align-items-center h-80">
+            <label for="data" class="col-3 col-form-label mb-3">Data</label>
+            <div class='col-5'>
+              <div class="form-group">
+                <pseu-input-container errorMassage="Data Invalida">
+                  <input  id="data" type="text" formControlName="data" class="form-control"  [ngModel]="eventoSelecionado.data">
+                </pseu-input-container>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-group row align-items-center h-80">
+            <label for="evento" class="col-3 col-form-label mb-3">Descrição</label>
+            <div class='col-5'>
+              <div class="form-group">
+                <pseu-input-container errorMassage="Descrição Invalida">
+                  <input  id="evento" type="text" formControlName="evento" class="form-control"  [ngModel]="eventoSelecionado.evento">
+                </pseu-input-container>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-group row align-items-center h-80">
+            <label for="intensidade" class="col-3 col-form-label mb-3">Intensidade</label>
+            <div class='col-5'>
+              <div class="form-group">
+                <pseu-input-container errorMassage="Intensidade Invalida">
+                  <input  id="intensidade" type="number" formControlName="intensidade" class="form-control"  [ngModel]="eventoSelecionado.intensidade">
+                </pseu-input-container>
+              </div>
+            </div>
+
+          </div>
+
+
+            <div class="form-group row align-items-center h-80">
+              <label for="sensor" class="col-3 col-form-label mb-3">Sensor</label>
+              <div class='col-5'>
+                <div class="form-group">
+              <select *ngIf="sensoresList" formControlName="sensor" id="sensor" class="form-control"  [ngModel]="sensorSelected.id" (change)="onChangeSensor($event.target)" >
+                <option *ngFor="let sensor of sensoresList; let i = index" [value]="sensoresList[i].id" >
+                  {{sensoresList[i].itemName}}
+                </option>
+              </select>
+                </div>
+              </div>
+            </div>
+
+        </div>
+        <div class="modal-footer" >
+          <br><br>
+          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" style="margin-right: 15px" [disabled]="incluirEventoForm.invalid" (click)="salvar(incluirEventoForm.value)">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -6,7 +6,7 @@ class EventoModel {
   private _sensor: number;
 
 
-  constructor(data: string, evento: string, intensidade: number, sensor: number) {
+  constructor(data?: string, evento?: string, intensidade?: number, sensor?: number) {
     this._data = data;
     this._evento = evento;
     this._intensidade = intensidade;
