@@ -13,8 +13,8 @@ import {NotificationService} from '../../shared/massages/snackbar/notification.s
 
 @Component({
   selector: 'app-adm-envolvidos',
-  templateUrl: './Envolvidos.component.html',
-  styleUrls: ['./Envolvidos.component.scss']
+  templateUrl: './envolvidos.component.html',
+  styleUrls: ['./envolvidos.component.scss']
 })
 export class EnvolvidosComponent implements OnInit {
 
