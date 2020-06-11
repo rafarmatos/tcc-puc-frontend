@@ -24,11 +24,11 @@
       </thead>
       <tbody>
       <tr *ngFor="let envolvido of listaEnvolvidos">
-        <td>{{envolvido.categoria}}</td>
-        <td>{{envolvido.email}}</td>
-        <td>{{envolvido.zona.nomeZona}}</td>
+        <td class="text-truncate coluna-max">{{envolvido.categoria}}</td>
+        <td class="text-truncate coluna-max">{{envolvido.email}}</td>
+        <td class="text-truncate coluna-max">{{envolvido.zona.nomeZona}}</td>
 
-        <td>
+        <td class="text-truncate coluna-max">
           <!--                          <button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"-->
           <!--                                  class="btn btn-success btn-link btn-sm" data-toggle="modal" data-target="#exampleModalCenter">-->
           <!--                            <i class="fa fa-edit"></i>-->

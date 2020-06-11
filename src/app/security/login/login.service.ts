@@ -71,7 +71,7 @@ export class LoginService {
   logout() {
     localStorage.clear();
     this.user = undefined;
-    this.router.navigate(['/home']);
+    this.router.navigate(['/login']);
   }
 
   getRoute () {
