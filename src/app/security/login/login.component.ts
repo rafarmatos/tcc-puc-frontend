@@ -4,6 +4,10 @@ import {LoginService} from './login.service';
 import {NotificationService} from '../../shared/massages/snackbar/notification.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {User} from './user.model';
+import {ngxLoadingAnimationTypes} from 'ngx-loading';
+
+const PrimaryGreen = '#82C83C';
+const SecondaryGrey = '#ccc';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +15,13 @@ import {User} from './user.model';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
+  // loading
+  public loading = false;
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+  public primaryColour = PrimaryGreen;
+  public secondaryColour = SecondaryGrey;
+
 
   loginForm: FormGroup;
   navigateTo: string;
@@ -38,6 +49,7 @@ export class LoginComponent implements OnInit {
       .subscribe(params => {
         this.authorization = params['authorization'];
         if (this.authorization) {
+          this.loading = true;
           console.log('buscar usuario:' + this.authorization);
           this.loginService.loginGoogle(this.authorization).subscribe(
             user => {
@@ -47,9 +59,10 @@ export class LoginComponent implements OnInit {
 
             },
             error => {
-              this.notificationService.notify(error.error);
+              this.notificationService.notify(`Falha ao efetuar o login. Erro: ${error.error}`);
+              this.loading = false;
             }, () => {
-
+              this.loading = false;
                }
           );
         }

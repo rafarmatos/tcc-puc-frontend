@@ -9,27 +9,26 @@
     <button type="button" class="btn btn-default btn-round" data-toggle="modal" data-target="#exampleModalCenter" (click)="novoEvento()"><i class="fa fa-plus"></i> Incluir Evento</button>
     <br>
     <br>
-    <div >
       <div class="table-responsive">
-        <table class="table">
+        <table class="table" >
           <thead>
-          <tr class="row">
-            <th class="col-3">Data</th>
-            <th class="col-3">Descricação</th>
-            <th class="col-2">Intensidade</th>
-            <th class="col-2">Sensor</th>
-            <th class="col-2"></th>
+          <tr >
+            <th scope="col">Data</th>
+            <th scope="col">Descricação</th>
+            <th scope="col">Intensidade</th>
+            <th scope="col">Sensor</th>
+            <th scope="col"></th>
 
           </tr>
           </thead>
           <tbody>
-          <tr class="row" *ngFor="let evento of listaEventos">
-            <td class="col-3">{{evento.data}}</td>
-            <td class="col-3">{{evento.evento}}</td>
-            <td class="col-2">{{evento.intensidade}}</td>
-            <td class="col-2">{{evento.sensor}}</td>
+          <tr *ngFor="let evento of listaEventos">
+            <td >{{evento.data}}</td>
+            <td >{{evento.evento}}</td>
+            <td >{{evento.intensidade}}</td>
+            <td >{{evento.sensor}}</td>
 
-                        <td class="col-2 td-actions text-left">
+                        <td>
 <!--                          <button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"-->
 <!--                                  class="btn btn-success btn-link btn-sm" data-toggle="modal" data-target="#exampleModalCenter">-->
 <!--                            <i class="fa fa-edit"></i>-->
@@ -46,7 +45,6 @@
       </div>
     </div>
   </div>
-</div>
 
 
 

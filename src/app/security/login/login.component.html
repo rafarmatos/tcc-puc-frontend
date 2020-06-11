@@ -5,28 +5,10 @@
           <div class="col-md-4 col-sm-6 ml-auto mr-auto">
             <form [formGroup]="loginForm">
               <div class="card card-register">
-                <h3 class="card-title">Acesse sua conta</h3>
+                <h3 class="card-title">Acesse utilizando sua conta do google.</h3>
 
                 <div class="division">
                   <div class="line"></div>
-                </div>
-
-                <form class="register-form" [formGroup]="loginForm">
-                  <app-input-container [showTip]="false">
-                    <input type="text" formControlName="email" class="form-control no-border" placeholder="Email">
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                  </app-input-container>
-
-                  <app-input-container [showTip]="false">
-                    <input type="password" formControlName="password" class="form-control no-border" placeholder="Senha">
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                  </app-input-container>
-
-                  <button class="btn btn-block btn-round" (click)="login()" [disabled]="loginForm.invalid" >ENTRAR</button>
-                </form>
-                <div class="login">
-                  <p>Não possui conta? <a [routerLink]="['/pre-cadastro']"> Cadastre-se</a>.</p>
-                  <p> <a [routerLink]="['/esqueci-senha']">Esqueceu sua senha?</a></p>
                 </div>
                 <div class="container">
                   <a href="https://sica-security.herokuapp.com/oauth2/authorization/google"
@@ -43,6 +25,10 @@
 
 
 </div>
+<ng-template #customLoadingTemplate> </ng-template>
+<ngx-loading [show]="loading" [config]="{primaryColour: primaryColour, secondaryColour: secondaryColour, fullScreenBackdrop: true, animationType: ngxLoadingAnimationTypes.circle}">
+</ngx-loading>
+
 
 
 

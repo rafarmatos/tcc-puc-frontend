@@ -11,22 +11,22 @@
     <br>
     <div >
       <div class="table-responsive">
-        <table class="table">
+        <table class="table" >
           <thead>
-          <tr class="row">
-            <th class="col-4">Nome Sensor</th>
-            <th class="col-4">Localização</th>
-            <th class="col-2">Zona</th>
-            <th class="col-2"></th>
+          <tr >
+            <th scope="col">Nome Sensor</th>
+            <th cscope="col">Localização</th>
+            <th scope="col">Zona</th>
+            <th scope="col"></th>
           </tr>
           </thead>
           <tbody>
-          <tr class="row" *ngFor="let sensor of listaSensores">
-            <td class="col-4">{{sensor.nomeSensor}}</td>
-            <td class="col-4">{{sensor.localizacao}}</td>
-            <td class="col-2">{{sensor.zona.nomeZona}}</td>
+          <tr *ngFor="let sensor of listaSensores">
+            <td >{{sensor.nomeSensor}}</td>
+            <td >{{sensor.localizacao}}</td>
+            <td >{{sensor.zona.nomeZona}}</td>
 
-                        <td class="col-2 td-actions text-left">
+                        <td >
 <!--                          <button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"-->
 <!--                                  class="btn btn-success btn-link btn-sm" data-toggle="modal" data-target="#exampleModalCenter">-->
 <!--                            <i class="fa fa-edit"></i>-->

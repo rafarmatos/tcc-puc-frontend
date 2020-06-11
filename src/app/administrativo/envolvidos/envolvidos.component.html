@@ -6,50 +6,53 @@
       </div>
     </div>
 
-    <button type="button" class="btn btn-default btn-round" data-toggle="modal" data-target="#exampleModalCenter" (click)="novoEnvolvido()"><i class="fa fa-plus"></i> Incluir Envolvido</button>
+    <button type="button" class="btn btn-default btn-round" data-toggle="modal" data-target="#exampleModalCenter"
+            (click)="novoEnvolvido()"><i class="fa fa-plus"></i> Incluir Envolvido
+    </button>
     <br>
     <br>
-    <div >
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-          <tr class="row">
-            <th class="col-4">Categoria</th>
-            <th class="col-4">Email</th>
-            <th class="col-2">Zona</th>
-            <th class="col-2"></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr class="row" *ngFor="let envolvido of listaEnvolvidos">
-            <td class="col-4">{{envolvido.categoria}}</td>
-            <td class="col-4">{{envolvido.email}}</td>
-            <td class="col-2">{{envolvido.zona.nomeZona}}</td>
 
-                        <td class="col-2 td-actions text-left">
-<!--                          <button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"-->
-<!--                                  class="btn btn-success btn-link btn-sm" data-toggle="modal" data-target="#exampleModalCenter">-->
-<!--                            <i class="fa fa-edit"></i>-->
-<!--                          </button>-->
-                          <button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Remover"
-                                  class="btn btn-danger btn-link btn-sm" (click)="excluirEnvolvidoPorId(envolvido.idEnvolvido)">
-                            <i class="fa fa-times"></i>
-                          </button>
-                        </td>
-          </tr>
+    <div class="table-responsive">
+    <table class="table" >
+      <thead>
+      <tr >
+        <th scope="col">Categoria</th>
+        <th scope="col">Email</th>
+        <th scope="col">Zona</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let envolvido of listaEnvolvidos">
+        <td>{{envolvido.categoria}}</td>
+        <td>{{envolvido.email}}</td>
+        <td>{{envolvido.zona.nomeZona}}</td>
 
-          </tbody>
-        </table>
-      </div>
+        <td>
+          <!--                          <button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"-->
+          <!--                                  class="btn btn-success btn-link btn-sm" data-toggle="modal" data-target="#exampleModalCenter">-->
+          <!--                            <i class="fa fa-edit"></i>-->
+          <!--                          </button>-->
+          <button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Remover"
+                  class="btn btn-danger btn-link btn-sm" (click)="excluirEnvolvidoPorId(envolvido.idEnvolvido)">
+            <i class="fa fa-times"></i>
+          </button>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
     </div>
+
   </div>
+
 </div>
 
 
-
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <form [formGroup]="incluirEnvolvidoForm" >
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+  <form [formGroup]="incluirEnvolvidoForm">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -63,12 +66,14 @@
             <label for="categoria" class="col-3 col-form-label mb-3">Categoria</label>
             <div class='col-5'>
               <div class="form-group">
-                <pseu-input-container errorMassage="Categoria Invalida">
-                  <input  id="categoria" type="text" formControlName="categoria" class="form-control"  [ngModel]="envolvidoSelecionado.categoria">
-                </pseu-input-container>
+                <select *ngIf="zonasList" formControlName="categoria" id="categoria" class="form-control"
+                        [ngModel]="categoriaSelected.itemName" (change)="onChangeCategoria($event.target)">
+                  <option *ngFor="let categoria of categoriasList; let i = index" [value]="categoriasList[i].itemName">
+                    {{categoriasList[i].itemName}}
+                  </option>
+                </select>
               </div>
             </div>
-
           </div>
 
           <div class="form-group row align-items-center h-80">
@@ -76,7 +81,8 @@
             <div class='col-5'>
               <div class="form-group">
                 <pseu-input-container errorMassage="Email Invalido">
-                  <input  id="email" type="text" formControlName="email" class="form-control"  [ngModel]="envolvidoSelecionado.email">
+                  <input id="email" type="text" formControlName="email" class="form-control"
+                         [ngModel]="envolvidoSelecionado.email">
                 </pseu-input-container>
               </div>
             </div>
@@ -84,24 +90,27 @@
           </div>
 
 
-            <div class="form-group row align-items-center h-80">
-              <label for="categoria" class="col-3 col-form-label mb-3">Zona</label>
-              <div class='col-5'>
-                <div class="form-group">
-              <select *ngIf="zonasList" formControlName="idZona" id="idZona" class="form-control"  [ngModel]="zonaSelected.id" (change)="onChangeZona($event.target)" >
-                <option *ngFor="let zona of zonasList; let i = index" [value]="zonasList[i].id" >
-                  {{zonasList[i].itemName}}
-                </option>
-              </select>
-                </div>
+          <div class="form-group row align-items-center h-80">
+            <label for="idZona" class="col-3 col-form-label mb-3">Zona</label>
+            <div class='col-5'>
+              <div class="form-group">
+                <select *ngIf="zonasList" formControlName="idZona" id="idZona" class="form-control"
+                        [ngModel]="zonaSelected.id" (change)="onChangeZona($event.target)">
+                  <option *ngFor="let zona of zonasList; let i = index" [value]="zonasList[i].id">
+                    {{zonasList[i].itemName}}
+                  </option>
+                </select>
               </div>
             </div>
+          </div>
 
         </div>
-        <div class="modal-footer" >
+        <div class="modal-footer">
           <br><br>
           <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Fechar</button>
-          <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" style="margin-right: 15px" [disabled]="incluirEnvolvidoForm.invalid" (click)="salvar(incluirEnvolvidoForm.value)">Salvar</button>
+          <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" style="margin-right: 15px"
+                  [disabled]="incluirEnvolvidoForm.invalid" (click)="salvar(incluirEnvolvidoForm.value)">Salvar
+          </button>
         </div>
       </div>
     </div>

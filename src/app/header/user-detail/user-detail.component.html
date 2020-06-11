@@ -8,9 +8,6 @@
     <ul class="dropdown-menu dropdown-menu-right dropdown-danger">
       <div class="dropdown-header"> {{user().name}} </div>
       <div class="dropdown-divider"></div>
-      <a class="dropdown-item" [routerLink]="['/administrativo/perfil']">Perfil</a>
-      <a class="dropdown-item" [routerLink]="['/alterar-senha']">Alterar Senha</a>
-      <div class="dropdown-divider"></div>
       <a class="dropdown-item" [routerLink]="" (click)="logout()">Sair</a>
     </ul>
   </li>

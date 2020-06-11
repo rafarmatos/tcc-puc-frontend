@@ -9,6 +9,7 @@ import {EnvolvidoDTO} from '../../shared/dto/envolvidoDTO';
 import {EnvolvidosService} from './envolvidos.service';
 import {SelectItem} from '../../shared/models/selectItem.model';
 import {NotificationService} from '../../shared/massages/snackbar/notification.service';
+import {CategoriasList} from '../../shared/constants/selectsConst';
 
 
 @Component({
@@ -23,6 +24,8 @@ export class EnvolvidosComponent implements OnInit {
   envolvidoSelecionado: EnvolvidoModel = new EnvolvidoModel();
   zonaSelected: SelectItem = {'id': 0, 'itemName': 'Selecione'};
   zonasList: SelectItem[];
+  categoriaSelected: SelectItem = {'id': 1, 'itemName': 'MORADOR'};
+  categoriasList = CategoriasList;
 
 
   constructor(private fb: FormBuilder,
@@ -47,6 +50,12 @@ export class EnvolvidosComponent implements OnInit {
     const valor: number = target.value;
     this.zonaSelected = this.zonasList.find(element => element.id === Number(valor));
   }
+
+  onChangeCategoria(target) {
+    console.log('valor: '+ target.value);
+    this.categoriaSelected = this.categoriasList.find(element => element.itemName === target.value);
+  }
+
 
   buscarEnvolvidos() {
     // Busca Envolvidos
