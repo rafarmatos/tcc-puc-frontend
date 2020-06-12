@@ -51,7 +51,6 @@ export class LoginService {
   }
 
   loginGoogle(authorization: string): Observable<Conta> {
-    console.log('teste')
     return this.http.get<Conta>(`${SICA_API_SEG}/_user`, {headers: {'Authorization': `${authorization}`}}).pipe(
       tap(user => this.user = user,
         error => console.log(error),
